@@ -1,59 +1,67 @@
 <html>
-    <head>
-        <title> Start Manager</title>
-    </head>
-    <body id="main" style="background-color: #000000;">
-        <button id="mute" onclick="onMute()">
-            mute on
-        </button>
-        <h1 id="timer" style="text-align: center; font-size: 100px; color: #777777;">
+
+<head>
+    <title> Start Manager</title>
+</head>
+
+<body id="main" style="background-color: Black;">
+    <button id="mute" onclick="onMute()">
+        mute on
+    </button>
+    <div style="margin: auto">
+        <h1 id="timer" style="text-align: center; font-size: 300px; color: White;">
             This is timer.
         </h1>
+    </div>
 
-        <script type="text/javascript">
-            var sflag = false;
-            var mflag = true;
+    <script type="text/javascript">
+        var sflag = false;
+        var mflag = true;
 
-            function onMute(){
-                mflag = !mflag;
+        function onMute() {
+            mflag = !mflag;
 
-                const mute = document.getElementById("mute");
-                if (mflag) mute.innerText = "mute on";
-                else mute.innerText = "mute off";
-            }
+            const mute = document.getElementById("mute");
+            if (mflag) mute.innerText = "mute on";
+            else mute.innerText = "mute off";
+        }
 
-            function update(){
+        function update() {
+            const timer = document.getElementById("timer");
+            const date = new Date();
+            timer.innerText = String(date.getTime()).substr(6, 12);
+        }
+
+        function onClick(e) {
+            // space key only
+            if (e.key == ' ') {
+                sflag = !sflag;
+
+                const main = document.getElementById("main");
+                const btn = document.getElementById("btn");
                 const timer = document.getElementById("timer");
-                const date = new Date();
-                timer.innerText = date.getTime();
-            }
+                const sound = new Audio("pien.mp3");
 
-            function onClick(e){
-                // space key only
-                if (e.key == ' '){
-                    sflag = !sflag;
+                // to avoid audio delay on Safari
+                // reference -> https://stackoverflow.com/questions/9811429/html5-audio-tag-on-safari-has-a-delay
+                /***** omajinai *****/
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioCtx = new AudioContext();
+                /***** omajinai *****/
 
-                    const main = document.getElementById("main");
-                    const btn = document.getElementById("btn");
-                    const sound = new Audio("pien.mp3");
-
-                    // to avoid audio delay on Safari
-                    // reference -> https://stackoverflow.com/questions/9811429/html5-audio-tag-on-safari-has-a-delay
-                    /***** omajinai *****/
-                    const AudioContext = window.AudioContext || window.webkitAudioContext;
-                    const audioCtx = new AudioContext();
-                    /***** omajinai *****/
-
-                    if (sflag){
-                        main.style.backgroundColor = "#ffffff";
-                        if (mflag) sound.play();
-                    }else{
-                        main.style.backgroundColor = "#000000";
-                    }
+                if (sflag) {
+                    main.style.backgroundColor = "White";
+                    timer.style.color = "Black";
+                    if (mflag) sound.play();
+                } else {
+                    main.style.backgroundColor = "Black";
+                    timer.style.color = "White";
                 }
             }
-            document.addEventListener("keydown", onClick);
-            setInterval(update, 1);
-        </script>
-    </body>
+        }
+        document.addEventListener("keydown", onClick);
+        setInterval(update, 1);
+    </script>
+</body>
+
 </html>
