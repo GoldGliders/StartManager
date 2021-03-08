@@ -32,34 +32,42 @@
             timer.innerText = String(date.getTime()).substr(6, 12);
         }
 
-        function onClick(e) {
-            // space key only
+        function onSpace(e) {
             if (e.key == ' ') {
-                sflag = !sflag;
-
-                const main = document.getElementById("main");
-                const btn = document.getElementById("btn");
-                const timer = document.getElementById("timer");
-                const sound = new Audio("pien.mp3");
-
-                // to avoid audio delay on Safari
-                // reference -> https://stackoverflow.com/questions/9811429/html5-audio-tag-on-safari-has-a-delay
-                /***** omajinai *****/
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const audioCtx = new AudioContext();
-                /***** omajinai *****/
-
-                if (sflag) {
-                    main.style.backgroundColor = "White";
-                    timer.style.color = "Black";
-                    if (mflag) sound.play();
-                } else {
-                    main.style.backgroundColor = "Black";
-                    timer.style.color = "White";
-                }
+                onClick();
             }
         }
-        document.addEventListener("keydown", onClick);
+
+        function onMouse(e) {
+            onClick();
+        }
+
+        function onClick(e) {
+            sflag = !sflag;
+
+            const main = document.getElementById("main");
+            const btn = document.getElementById("btn");
+            const timer = document.getElementById("timer");
+            const sound = new Audio("pien.mp3");
+
+            // to avoid audio delay on Safari
+            // reference -> https://stackoverflow.com/questions/9811429/html5-audio-tag-on-safari-has-a-delay
+            /***** omajinai *****/
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioCtx = new AudioContext();
+            /***** omajinai *****/
+
+            if (sflag) {
+                main.style.backgroundColor = "White";
+                timer.style.color = "Black";
+                if (mflag) sound.play();
+            } else {
+                main.style.backgroundColor = "Black";
+                timer.style.color = "White";
+            }
+        }
+        document.addEventListener("keydown", onSpace);
+        document.addEventListener("mousedown", onMouse);
         setInterval(update, 1);
     </script>
 </body>
